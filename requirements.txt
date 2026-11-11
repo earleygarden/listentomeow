@@ -1,0 +1,15 @@
+# 听喵说 · 运行期依赖
+# 安装：pip install -r requirements.txt
+
+librosa==1.0.0
+numpy==2.4.6
+scikit-learn==1.9.1
+joblib==1.6.0
+soundfile==0.14.0
+imageio-ffmpeg==0.6.0
+onnxruntime==1.30.0
+opencv-python==5.0.0.93
+
+# 仅在重新导出 AST 骨干模型时需要（scripts/export_ast_onnx.py）：
+# torch==2.14.1
+# transformers==5.20.2

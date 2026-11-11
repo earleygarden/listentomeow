@@ -1,0 +1,16 @@
+{
+  "samples": 878,
+  "groups": 133,
+  "cv_accuracy": 0.9317,
+  "cv_auc": 0.9728,
+  "threshold": 0.54,
+  "stats": {
+    "BarkMeowDB 猫叫（切窗）": 197,
+    "CatMeows 喵叫（原样）": 440,
+    "meow 合计": 637,
+    "BarkMeowDB 狗吠（切窗）": 206,
+    "CatMeows 非喵叫猫声": 13,
+    "合成负样本": 22,
+    "other 合计": 241
+  }
+}

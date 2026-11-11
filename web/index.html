@@ -1,0 +1,1702 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>听喵说</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Crect%20width%3D%2764%27%20height%3D%2764%27%20rx%3D%2714%27%20fill%3D%27%231E2439%27%2F%3E%3Cpath%20d%3D%27M18%2027%20L15%2012%20Q14%208%2018%2011%20L28%2020%20Z%27%20fill%3D%27%237E8A9C%27%2F%3E%3Cpath%20d%3D%27M46%2027%20L49%2012%20Q50%208%2046%2011%20L36%2020%20Z%27%20fill%3D%27%237E8A9C%27%2F%3E%3Cellipse%20cx%3D%2732%27%20cy%3D%2735%27%20rx%3D%2717%27%20ry%3D%2715%27%20fill%3D%27%237E8A9C%27%2F%3E%3Cellipse%20cx%3D%2725%27%20cy%3D%2733%27%20rx%3D%274.2%27%20ry%3D%274.6%27%20fill%3D%27%23E8A63C%27%2F%3E%3Cellipse%20cx%3D%2739%27%20cy%3D%2733%27%20rx%3D%274.2%27%20ry%3D%274.6%27%20fill%3D%27%23E8A63C%27%2F%3E%3Cellipse%20cx%3D%2725%27%20cy%3D%2733%27%20rx%3D%271.6%27%20ry%3D%273.4%27%20fill%3D%27%232A2118%27%2F%3E%3Cellipse%20cx%3D%2739%27%20cy%3D%2733%27%20rx%3D%271.6%27%20ry%3D%273.4%27%20fill%3D%27%232A2118%27%2F%3E%3Cpath%20d%3D%27M32%2042%20L30%2040.5%20Q29.4%2039.9%2030.3%2039.9%20L33.7%2039.9%20Q34.6%2039.9%2034%2040.5%20Z%27%20fill%3D%27%23E39A9C%27%2F%3E%3C%2Fsvg%3E">
+<style>
+  :root{
+    --ink:#16344F; --ink2:#5A7389; --ink3:#94A9BC;
+    --night:#0E2236; --cream:#EAF3FC; --card:#FFFFFF;
+    --yellow:#FFC93C; --yellow-d:#E9A81A; --yellow-l:#FFF6DA;
+    --pink:#FFD9E1; --pink-d:#EF8AA4; --peach:#FFB89A;
+    --mint:#B7E7D6; --mint-d:#33A982; --blue:#9CC8F0; --blue-d:#3E86D6;
+    --line:#DEEBF7;
+    /* 天蓝主色（取自页头参考图） */
+    --sky1:#62ADF1; --sky2:#9FCFEF; --sky-l:#D2E4F8;
+    /* 全站统一字体：微软雅黑（优先界面版 UI 变体，小字号更锐利） */
+    --font:"Microsoft YaHei UI","Microsoft YaHei","微软雅黑","Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:
+      radial-gradient(120% 58% at 50% -8%,#DCEDFC 0%,rgba(220,237,252,0) 62%),
+      linear-gradient(180deg,#E8F3FD 0%,#F5FAFF 42%,#FCFEFF 100%);
+    color:var(--ink);
+    font-family:var(--font);
+    display:flex;justify-content:center;min-height:100vh;}
+  .wrap{width:100%;max-width:540px;padding-bottom:38px}
+
+  /* ══ 页头 ══ */
+  .hero{position:relative;background:var(--night);padding:24px 0 0;
+    border-radius:0 0 50% 50% / 0 0 52px 52px;overflow:hidden;}
+  .hero::before{content:"";position:absolute;width:min(560px,140%);aspect-ratio:1/1;border-radius:50%;
+    background:radial-gradient(circle,rgba(251,201,27,.26),transparent 66%);
+    top:64%;left:50%;transform:translate(-50%,-50%);}
+  .hero::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;
+    background:radial-gradient(circle,rgba(169,198,232,.18),transparent 70%);bottom:10px;left:-96px;}
+  .hero-tx{position:relative;z-index:3;text-align:center;padding:0 26px}
+  .hero-tx h1{margin:0;font-size:38px;letter-spacing:.03em;color:#fff;font-weight:700;
+    line-height:1.12;text-shadow:0 2px 14px rgba(0,0,0,.34)}
+  .hero-tx h1 em{font-style:normal;color:var(--yellow)}
+  .hero-en{margin-top:6px;font-size:12px;font-weight:400;letter-spacing:.22em;
+    color:rgba(255,255,255,.50);font-family:var(--font)}
+  .cat{position:relative;z-index:2;display:block;width:100%;height:auto;margin-top:2px;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.24));
+    transform-box:fill-box;transform-origin:center bottom;animation:breathe 4.2s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-3px) scale(1.010)}}
+  /* 品牌胶囊（当前页头未用，留作备用，恢复只需加回一行 HTML） */
+  .brand{display:inline-flex;align-items:center;gap:6px;margin-bottom:7px;
+    padding:3px 9px 3px 7px;border-radius:999px;
+    background:rgba(251,201,27,.13);border:1px solid rgba(251,201,27,.30);
+    font-size:10.5px;letter-spacing:.20em;font-weight:700;color:#F4D470;
+    font-family:var(--font)}
+  .brand i{width:5px;height:5px;border-radius:50%;background:var(--yellow);
+    box-shadow:0 0 7px var(--yellow);flex:none;font-style:normal}
+
+  .main{padding:0 18px;margin-top:-32px;position:relative;z-index:3}
+
+  .card{background:var(--card);border-radius:26px;padding:21px 20px;margin-bottom:15px;
+    box-shadow:0 1px 1.5px rgba(30,36,57,.025),0 10px 28px rgba(30,36,57,.055)}
+
+  .ct{display:flex;align-items:center;gap:9px;font-size:15.5px;font-weight:700;margin-bottom:15px}
+  .ct .num{width:23px;height:23px;border-radius:8px;background:var(--yellow);color:var(--ink);
+    font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .ct .af{font-size:12px;font-weight:400;color:var(--ink3);margin-left:auto;font-family:var(--font)}
+
+  /* ══ 上传 ══ */
+  .picker{display:flex;flex-direction:column;align-items:center;gap:13px;padding:23px 16px 19px;
+    border-radius:22px;background:linear-gradient(170deg,#F5FBFF,#EAF5FE);
+    border:2px dashed #C9E3F8;cursor:pointer;transition:.2s}
+  .picker:hover{border-color:var(--yellow-d);background:linear-gradient(170deg,#EAF5FE,#DCEFFF)}
+  .picker.on{border-color:var(--yellow-d);background:#DCEFFF;transform:scale(.995)}
+  .picker .hint{font-size:12.5px;color:#7E97AC;text-align:center;line-height:1.7}
+  .ball{width:84px;height:84px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 34% 28%,#FFE066,var(--yellow) 52%,var(--yellow-d));
+    box-shadow:0 8px 0 #D9A400,0 14px 24px rgba(211,160,0,.35);
+    display:flex;align-items:center;justify-content:center;transition:transform .12s}
+  .picker:hover .ball{transform:translateY(-2px)}
+  .picker:active .ball{transform:translateY(5px);box-shadow:0 3px 0 #D9A400,0 6px 12px rgba(211,160,0,.3)}
+  .ball svg{width:44px;height:44px}
+
+  .filebar{display:none;align-items:center;gap:10px;margin-top:13px;padding:11px 13px;
+    border-radius:15px;background:#F2F8FD}
+  .filebar.on{display:flex;animation:fadeUp .3s}
+  .filebar .dot{width:8px;height:8px;border-radius:50%;background:var(--mint-d);flex:none}
+  .filebar .nm{flex:1;font-size:13px;color:var(--ink2);overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap}
+  .ghost{border:1px solid var(--line);background:#fff;color:var(--ink2);border-radius:11px;
+    padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .ghost:hover{border-color:var(--blue);color:#3F6FA8}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  audio{width:100%;margin-top:11px;display:none;height:36px}
+  audio.on{display:block}
+  video{width:100%;margin-top:11px;display:none;border-radius:15px;background:#0E2236}
+  video.on{display:block}
+  .row2{display:flex;gap:9px;margin-top:13px}
+  .row2 .ghost{flex:1;text-align:center;padding:11px 8px;font-size:13px}
+
+  .go{width:100%;border:none;border-radius:19px;padding:17px;font-size:16.5px;font-weight:700;
+    font-family:inherit;cursor:pointer;margin-top:16px;letter-spacing:.02em;
+    background:linear-gradient(170deg,#FFD84A,var(--yellow) 60%,var(--yellow-d));
+    color:var(--ink);box-shadow:0 5px 0 #D9A400,0 10px 20px rgba(211,160,0,.28);
+    transition:transform .12s,box-shadow .12s}
+  .go:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 #D9A400,0 4px 10px rgba(211,160,0,.24)}
+  .go:disabled{background:#E3EEF8;color:#9FB0C0;box-shadow:none;cursor:not-allowed}
+  .err{color:#C4557E;font-size:13px;margin-top:11px;line-height:1.7}
+
+  /* ══ 声波分析面板 ══ */
+  .lab{display:none}
+  .lab.on{display:block;animation:fadeUp .35s}
+  .scope{background:#0E2236;border-radius:18px;padding:13px 13px 11px;
+    box-shadow:inset 0 2px 14px rgba(0,0,0,.4)}
+  .scope-hd{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.15em;
+    color:#8C97B0;font-family:var(--font);font-weight:700;margin-bottom:6px}
+  .scope-hd .led{width:6px;height:6px;border-radius:50%;background:#FBC91B;
+    box-shadow:0 0 8px #FBC91B;flex:none}
+  .scope-hd .led.b{background:#6FA8E8;box-shadow:0 0 8px #6FA8E8}
+  .scope-hd .r{margin-left:auto;color:#5A6480;letter-spacing:.05em}
+  .scope-hd.mt{margin-top:11px}
+  canvas{display:block;width:100%;border-radius:9px;background:#0A1A2C}
+  #wave{height:92px}
+  #spec{height:76px}
+
+  /* ── 波形动态回放层 ── */
+  .wv{position:relative}
+  /* 覆层必须透明，否则会盖住底层波形 */
+  #wavePlay{position:absolute;left:0;top:0;width:100%;height:100%;
+    background:transparent;pointer-events:none}
+  /* 扫描时底层波形压暗，让"被读过的一段"跳出来 */
+  #wave{transition:opacity .28s}
+  .scope.scanning #wave{opacity:.30}
+  @keyframes pulseY{0%,100%{opacity:1}50%{opacity:.2}}
+  .scope.scanning .scope-hd .led{animation:pulseY .72s infinite}
+
+  /* 回放读数条 */
+  .scrub{display:flex;align-items:center;gap:8px;margin-top:6px;
+    font-family:var(--font);font-size:10px;letter-spacing:.05em;
+    font-variant-numeric:tabular-nums;padding:0 2px;height:14px}
+  .scrub .tag{flex:none;padding:1.5px 7px;border-radius:999px;
+    background:rgba(140,151,176,.16);color:#8C97B0;font-weight:700;letter-spacing:.12em;
+    transition:background .25s,color .25s}
+  .scrub .tm{color:#8C97B0;transition:color .25s}
+  .scrub .lv{margin-left:auto;color:#5A6480;transition:color .25s}
+  .scrub.on .tag{background:rgba(251,201,27,.20);color:#FBC91B}
+  .scrub.on .tm{color:#D9C26A}
+  .scrub.on .lv{color:#9AA2B8}
+  .scrub.done .tag{background:rgba(79,169,135,.20);color:#6FD3A8}
+  .scrub.done .tm{color:#8FBFA8}
+
+  /* 现场录音 · 实时示波器 */
+  .scope-hd.live{display:none}
+  #live{display:none;height:64px}
+  .scope.rec .scope-hd.live{display:flex}
+  .scope.rec #live{display:block}
+  .scope-hd .led.r{background:#FF5A5A;box-shadow:0 0 8px #FF5A5A;animation:pulseR 1.05s infinite}
+  .scope-hd.live .r{color:#7E88A3}
+  @keyframes pulseR{0%,100%{opacity:1}50%{opacity:.25}}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}
+  .stat{background:#F2F8FD;border-radius:13px;padding:10px 6px;text-align:center}
+  .stat .v{font-size:14.5px;font-weight:700;font-family:var(--font);color:#1B3A56;
+    letter-spacing:-.01em;line-height:1.3;font-variant-numeric:tabular-nums}
+  .stat .k{font-size:10px;color:#8FA4B8;letter-spacing:.05em;margin-top:2px;
+    font-family:var(--font)}
+
+  .pipe{margin-top:15px;padding-top:13px;border-top:1px dashed var(--line)}
+  .pipe-h{font-size:11px;letter-spacing:.1em;color:var(--ink3);font-family:var(--font);
+    font-weight:700;margin-bottom:7px}
+  .step{display:flex;align-items:center;gap:10px;font-size:13px;color:#C2D3E1;padding:5px 0;
+    transition:color .25s}
+  .step .mk{width:18px;height:18px;border-radius:6px;border:1.5px solid #DCEAF6;flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;
+    transition:.25s;font-weight:700}
+  .step.done{color:var(--ink);font-weight:700}
+  .step.done .mk{background:var(--mint-d);border-color:var(--mint-d)}
+  .step.done .mk::after{content:"✓"}
+  .step.run{color:var(--ink);font-weight:700}
+  .step.run .mk{border-color:var(--yellow-d);border-right-color:transparent;
+    border-radius:50%;animation:spin .65s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .step .val{margin-left:auto;font-family:var(--font);font-size:11.5px;color:#94A9BC}
+  .step.done .val{color:var(--mint-d)}
+  .step.off{display:none}
+
+  /* ══ 结论 ══ */
+  .result{display:none}
+  .result.on{display:block;animation:fadeUp .35s}
+  .bubble{position:relative;background:linear-gradient(165deg,#F8FCFF,#EAF5FE);
+    border:2px solid #C9E3F8;border-radius:22px;padding:18px 20px 16px;margin-bottom:9px}
+  .bubble::after{content:"";position:absolute;left:26px;bottom:-13px;width:0;height:0;
+    border-left:11px solid transparent;border-right:11px solid transparent;border-top:13px solid #C9E3F8}
+  .bubble::before{content:"";position:absolute;left:29px;bottom:-9px;width:0;height:0;z-index:1;
+    border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #F8FCFF}
+  .bubble .who{font-size:11.5px;font-weight:700;color:var(--blue-d);letter-spacing:.1em;margin-bottom:7px}
+  .bubble .tx{font-size:19.5px;line-height:1.62;font-weight:700;color:var(--ink)}
+
+  .meta{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 4px}
+  .pill{font-size:12px;padding:5px 12px;border-radius:999px;font-weight:700;
+    background:#EDF5FD;color:#3E86D6}
+  .pill.y{background:var(--yellow-l);color:#8A6B00}
+  .pill.m{background:#E9F8F1;color:var(--mint-d)}
+  .pill.p{background:#FFEAF2;color:var(--pink-d)}
+
+  .prob{margin-top:15px;padding-top:14px;border-top:1px dashed var(--line)}
+  .prob .h{font-size:11.5px;color:var(--ink3);margin-bottom:11px;font-weight:700;
+    letter-spacing:.06em}
+  .prob .row{margin:11px 0}
+  .prob .lab{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink2);margin-bottom:5px}
+  .prob .lab b{color:var(--ink);font-weight:700;font-family:var(--font)}
+  .bar{height:9px;border-radius:6px;background:#E7F0F9;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:6px;
+    background:linear-gradient(90deg,#FFD84A,var(--yellow-d));
+    transition:width .6s cubic-bezier(.3,1,.4,1);width:0}
+
+  /* 闸门仪表 */
+  .gate{margin-top:15px;padding-top:14px;border-top:1px dashed var(--line)}
+  .gate .h{font-size:11.5px;color:var(--ink3);margin-bottom:10px;font-weight:700;letter-spacing:.06em}
+  .track{position:relative;height:12px;border-radius:7px;background:#E7F0F9;overflow:hidden}
+  .track i{display:block;height:100%;border-radius:7px;
+    background:linear-gradient(90deg,#A8DEC8,#4FA987);width:0;transition:width .7s cubic-bezier(.3,1,.4,1)}
+  .track .th{position:absolute;top:-4px;bottom:-4px;width:2px;background:#E88BA4;border-radius:2px}
+  .track .th::after{content:attr(data-t);position:absolute;top:-17px;left:50%;transform:translateX(-50%);
+    font-size:9.5px;color:#D2748F;font-family:var(--font);white-space:nowrap}
+  .gate .lg{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);
+    margin-top:9px;font-family:var(--font)}
+
+  /* ── 画面里看到了什么（只在传视频时出现） ── */
+  .vis{margin-top:15px;padding-top:14px;border-top:1px dashed var(--line)}
+  .vis .h{font-size:11.5px;color:var(--ink3);margin-bottom:11px;font-weight:700;letter-spacing:.06em}
+  .vis .shot{position:relative;border-radius:15px;overflow:hidden;background:#0E2236;line-height:0}
+  .vis .shot img{display:block;width:100%;height:auto}
+  .vis .shot .cap{position:absolute;left:9px;bottom:9px;font-size:10.5px;font-weight:700;
+    letter-spacing:.06em;color:#fff;background:rgba(14,34,54,.66);padding:4px 9px;border-radius:999px;
+    line-height:1.5}
+  .vis .facts{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+  .vis .fact{font-size:12px;padding:5px 11px;border-radius:999px;background:#EDF5FD;
+    color:var(--ink2);font-weight:700}
+  .vis .fact.k{background:var(--yellow-l);color:#8A6B00}
+  .vis .none{font-size:13px;color:var(--ink2);line-height:1.75}
+  .vis .lim{margin-top:11px;font-size:11.5px;color:var(--ink3);line-height:1.7}
+
+  .result.reject .bubble{background:linear-gradient(165deg,#FFF6FA,#FFEAF2);border-color:#F8D6E0}
+  .result.reject .bubble::after{border-top-color:#F8D6E0}
+  .result.reject .bubble::before{border-top-color:#FFF8FB}
+  .result.reject .bubble .who{color:var(--pink-d)}
+  .result.reject .bubble .tx{font-size:16px;line-height:1.7;font-weight:400;color:#8A5568}
+  /* ── 拿不准状态：低置信度/分布外音频（多猫合唱、嘈杂环境）──
+     不用蓝色的"听懂了"，换成暖黄气泡 + 小号正文，明确告诉用户这次是弱猜测 */
+  .result.unsure .bubble{background:linear-gradient(165deg,#FFFDF4,#FFF6DA);border-color:#F5E3B3}
+  .result.unsure .bubble::after{border-top-color:#F5E3B3}
+  .result.unsure .bubble::before{border-top-color:#FFFDF6}
+  .result.unsure .bubble .who{color:#A67C00}
+  .result.unsure .bubble .tx{font-size:16px;line-height:1.75;font-weight:500;color:#6B5A1E}
+  /* ── 「换一个说法」+ 技术细节折叠（娱乐化：语录是主角，仪表盘收起来） ── */
+  .acts{margin-top:12px;display:flex;gap:8px}
+  .reroll{border:1px solid var(--line);background:#fff;color:var(--blue-d);
+    border-radius:10px;padding:7px 14px;font-size:12.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;transition:.15s}
+  .reroll:hover{border-color:var(--blue);background:#F5FBFF}
+  .reroll:disabled{color:var(--ink3);cursor:default;border-color:var(--line);background:#fff}
+  .bubble .tx.pop{animation:popIn .32s ease}
+  @keyframes popIn{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
+  details.tech{margin-top:15px;border-top:1px dashed var(--line);padding-top:11px}
+  details.tech>summary{cursor:pointer;font-size:11.5px;color:var(--ink3);
+    list-style:none;user-select:none;font-weight:600;letter-spacing:.02em}
+  details.tech>summary::-webkit-details-marker{display:none}
+  details.tech>summary::before{content:"▸ ";color:var(--ink3)}
+  details.tech[open]>summary::before{content:"▾ "}
+  details.tech>summary:hover{color:var(--blue-d)}
+  /* ── 录音小贴士：小问号 + 点开的气泡（只在录音区出现） ── */
+  .tipwrap{position:relative;flex:none}
+  .row2 .tipbtn{flex:none;width:40px;padding:11px 0;font-size:13.5px;font-weight:700;
+    color:var(--ink3);letter-spacing:0;line-height:1}
+  .tipbtn:hover,.tipbtn.on{border-color:var(--yellow-d);color:#8A6B00;background:#F5FBFF}
+  .tippop{position:absolute;bottom:calc(100% + 13px);right:0;width:292px;
+    max-width:calc(100vw - 60px);z-index:30;display:none;background:#fff;
+    border:1px solid var(--line);border-radius:16px;padding:15px 17px 14px;text-align:left;
+    box-shadow:0 16px 40px rgba(30,36,57,.15),0 3px 10px rgba(30,36,57,.05)}
+  .tippop.on{display:block;animation:fadeUp .2s}
+  .tippop::after{content:"";position:absolute;bottom:-6.5px;right:15px;width:12px;height:12px;
+    background:#fff;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    transform:rotate(45deg)}
+  .tippop-h{font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:.02em;
+    margin-bottom:10px}
+  .tippop-l{display:flex;gap:9px;font-size:12.5px;color:#5E7489;line-height:1.8;padding:2.5px 0}
+  .tippop-l i{flex:none;width:17px;height:17px;border-radius:6px;background:var(--yellow-l);
+    color:#8A6B00;font-size:10.5px;font-weight:700;font-style:normal;margin-top:2px;
+    display:flex;align-items:center;justify-content:center}
+
+  .foot{font-size:11.5px;color:var(--ink3);text-align:center;line-height:1.85;
+    margin-top:12px;padding:0 8px}
+  .foot b{color:var(--ink2);font-weight:700}
+
+  .rec{position:relative}
+  .rec.live{background:#FFE3EA;border-color:#F5A9BF;color:#B5435A}
+  .rec.live::after{content:"";position:absolute;inset:-3px;border-radius:12px;
+    border:2px solid #F5A9BF;animation:ping 1.1s ease-out infinite}
+  @keyframes ping{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.14)}}
+
+  @media (max-width:400px){
+    .hero{padding:20px 0 0}
+    .hero-tx{padding:0 20px}
+    .hero-tx h1{font-size:30px}
+    .hero-en{font-size:10.5px;letter-spacing:.18em}
+    .bubble .tx{font-size:17.5px}
+    .main{padding:0 13px;margin-top:-26px}
+    .card{padding:18px 15px;border-radius:22px}
+    #wave{height:82px} #spec{height:68px}
+    .stats{grid-template-columns:repeat(2,1fr)}
+  }
+
+  /* ══ 反馈闭环 ══ */
+  .fb{display:none;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px;
+    padding-top:13px;border-top:1px dashed var(--line)}
+  .fb.on{display:flex;animation:fadeUp .3s}
+  .fb .fb-q{font-size:12.5px;color:var(--ink3);font-weight:700;margin-right:2px}
+  .fb-btn{border:1px solid var(--line);background:#fff;color:var(--ink2);
+    border-radius:11px;padding:7px 12px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+  .fb-btn.ok:hover{border-color:var(--mint-d);color:var(--mint-d);background:#F1F9F5}
+  .fb-btn.no:hover{border-color:var(--pink-d);color:var(--pink-d);background:#FFF1F5}
+  .fb-btn:disabled{opacity:.5;cursor:default}
+  .fb-msg{font-size:12px;color:var(--mint-d);font-weight:700;margin-left:2px}
+
+  /* ══ 历史记录 ══ */
+  .hist .hist-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .hist .clearb{margin-left:auto;border:1px solid var(--line);background:#fff;color:var(--ink3);
+    border-radius:10px;padding:5px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
+  .hist .clearb:hover{border-color:var(--pink-d);color:var(--pink-d)}
+  .hist-export{margin-left:0;border:1px solid var(--line);background:#fff;color:var(--ink3);
+    border-radius:10px;padding:5px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
+  .hist-export:hover{border-color:var(--blue);color:var(--blue-d)}
+  .hist-list{display:flex;flex-direction:column;gap:9px}
+  .hist-item{display:flex;gap:11px;align-items:center;background:#F2F8FD;border-radius:14px;
+    padding:11px 13px;cursor:pointer;transition:.15s}
+  .hist-item:hover{background:#EEF3F9;transform:translateY(-1px)}
+  .hist-emoji{flex:none;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;
+    justify-content:center;font-size:19px;background:var(--yellow-l)}
+  .hist-main{flex:1;min-width:0}
+  .hist-tx{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis}
+  .hist-sub{font-size:11px;color:var(--ink3);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+  .hist-sub .pill2{background:#EAF4FE;color:#4A7CA8;padding:1px 7px;border-radius:999px}
+  .hist-time{flex:none;font-size:10px;color:var(--ink3);font-variant-numeric:tabular-nums}
+  .hist-empty{font-size:13px;color:var(--ink3);text-align:center;padding:18px 0;line-height:1.7}
+
+  /* ══ 喵语档案馆（服务端 data/uploads/ 永久存档）══ */
+  .arc .arc-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+  .arc .arc-refresh{border:1px solid var(--line);background:#fff;color:var(--ink3);
+    border-radius:10px;padding:5px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
+  .arc .arc-refresh:hover{border-color:var(--blue);color:var(--blue-d)}
+  .arc .arc-export{margin-left:auto;border:1px solid var(--line);background:#fff;color:var(--ink3);
+    border-radius:10px;padding:5px 11px;font-size:11.5px;cursor:pointer;font-family:inherit}
+  .arc .arc-export:hover{border-color:var(--blue);color:var(--blue-d)}
+  .arc-hint{font-size:11px;color:var(--ink3);margin-bottom:11px;line-height:1.6}
+  .arc-hint code{background:#EAF4FE;color:#3E86D6;padding:1px 5px;border-radius:5px;font-size:10.5px}
+  .arc-list{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding-right:3px}
+  .arc-item{background:#F2F8FD;border-radius:14px;padding:11px 13px}
+  .arc-row{display:flex;gap:11px;align-items:center}
+  .arc-emoji{flex:none;width:38px;height:38px;border-radius:11px;display:flex;align-items:center;
+    justify-content:center;font-size:19px;background:var(--yellow-l)}
+  .arc-main{flex:1;min-width:0}
+  .arc-tx{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arc-sub{font-size:11px;color:var(--ink3);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
+  .arc-sub .pill2{background:#EAF4FE;color:#4A7CA8;padding:1px 7px;border-radius:999px}
+  .arc-time{flex:none;font-size:10px;color:var(--ink3);font-variant-numeric:tabular-nums}
+  .arc-dl{flex:none;font-size:10.5px;color:var(--blue-d);text-decoration:none;border:1px solid var(--line);
+    border-radius:8px;padding:3px 8px;background:#fff}
+  .arc-dl:hover{border-color:var(--blue)}
+  .arc-player{margin-top:9px;width:100%;height:32px}
+  .arc-empty{font-size:13px;color:var(--ink3);text-align:center;padding:18px 0;line-height:1.7}
+
+  /* ══════════ 天蓝主题统一 · 页头与整体覆盖 ══════════
+     以参考图（assets/hero.jpg）作为唯一主视觉：16:9 铺满、下方切圆角，
+     隐藏旧的深色底 + 矢量猫 + 文字标题（标题已烘焙在图中）。 */
+  .hero{
+    position:relative;padding:0;aspect-ratio:16/9;
+    background:url("assets/hero.jpg") center/cover no-repeat;
+    border-radius:0 0 30px 30px;overflow:hidden;
+    box-shadow:0 14px 34px rgba(46,116,190,.22);
+  }
+  .hero::before,.hero::after{display:none}
+  .hero-tx,.cat{display:none}
+  .main{margin-top:16px}
+  .card{box-shadow:0 2px 4px rgba(46,116,190,.04),0 10px 26px rgba(46,116,190,.10)}
+  @media (max-width:400px){
+    .hero{border-radius:0 0 24px 24px}
+    .main{margin-top:12px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ══ 页头 ══ -->
+  <div class="hero" role="img" aria-label="听喵说 · Listen to meow —— 一只灰色的猫扒着桌沿探出半个头">
+    <div class="hero-tx">
+      <h1>听<em>喵</em>说</h1>
+      <div class="hero-en">Listen to meow</div>
+    </div>
+
+    <svg class="cat" viewBox="0 0 420 258" fill="none" role="img"
+         aria-label="听喵说 · 一只英短从边缘探出半个头，两只前爪扒在沿上">
+      <defs>
+        <clipPath id="heroClip"><rect x="0" y="0" width="420" height="176"/></clipPath>
+        <linearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#000000" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+        </linearGradient>
+        <g id="paw">
+          <ellipse cx="124" cy="186" rx="31" ry="26" fill="#939EAF"/>
+          <ellipse cx="124" cy="186" rx="31" ry="26" fill="none"
+                   stroke="#5F6A7B" stroke-width="2" stroke-opacity=".45"/>
+          <g fill="none" stroke="#7E8A9C" stroke-width="2.6"
+             stroke-linecap="round" stroke-opacity=".8">
+            <path d="M110 163 Q108 175 111 184"/>
+            <path d="M124 160 Q124 174 124 183"/>
+            <path d="M138 163 Q140 175 137 184"/>
+          </g>
+        </g>
+      </defs>
+
+      <!-- 猫：英短，只露上半张脸，下巴被沿剪掉 -->
+      <g clip-path="url(#heroClip)">
+        <path d="M141 104.5 L126 35.5 Q123 22 138 29.5 L195 68.5 Z" fill="#6E788A"/>
+        <path d="M279 104.5 L294 35.5 Q297 22 282 29.5 L225 68.5 Z" fill="#6E788A"/>
+        <path d="M150 98.5 L139.5 53.5 Q138 46 145.5 50.5 L183 74.5 Z" fill="#E8A9AC"/>
+        <path d="M270 98.5 L280.5 53.5 Q282 46 274.5 50.5 L237 74.5 Z" fill="#E8A9AC"/>
+        <ellipse cx="210" cy="143.5" rx="90" ry="79.5" fill="#7E8A9C"/>
+        <ellipse cx="159" cy="170.5" rx="36" ry="30" fill="#7E8A9C"/>
+        <ellipse cx="261" cy="170.5" rx="36" ry="30" fill="#7E8A9C"/>
+        <ellipse cx="210" cy="173.5" rx="45" ry="28.5" fill="#939EAF"/>
+        <ellipse cx="174" cy="136" rx="20.5" ry="21" fill="#E8A63C"/>
+        <ellipse cx="246" cy="136" rx="20.5" ry="21" fill="#E8A63C"/>
+        <ellipse class="pupil" cx="174" cy="136" rx="7.8" ry="15.8" fill="#2A2118"/>
+        <ellipse class="pupil" cx="246" cy="136" rx="7.8" ry="15.8" fill="#2A2118"/>
+        <circle cx="166.5" cy="127" r="6" fill="#ffffff" opacity=".92"/>
+        <circle cx="238.5" cy="127" r="6" fill="#ffffff" opacity=".92"/>
+        <path d="M210 167.5 L200.2 157.7 Q198 155.5 201 154.9 L219 154.9 Q222 155.5 219.8 157.7 Z" fill="#E39A9C"/>
+        <g fill="none" stroke="#C6CEDA" stroke-width="2.4" stroke-linecap="round" opacity=".85">
+          <path d="M176 150 L92 138"/>
+          <path d="M174 162 L94 149"/>
+          <path d="M244 150 L328 138"/>
+          <path d="M246 162 L326 149"/>
+        </g>
+      </g>
+
+      <!-- 沿与前壁 -->
+      <rect x="0" y="176" width="420" height="82" fill="#ffffff" fill-opacity=".05"/>
+      <rect x="0" y="176" width="420" height="2.2" fill="#ffffff" fill-opacity=".26"/>
+      <rect x="0" y="178.2" width="420" height="12" fill="url(#heroFade)"/>
+
+      <!-- 两只前爪扒在沿上 -->
+      <use href="#paw"/>
+      <use href="#paw" transform="translate(172,0)"/>
+    </svg>
+  </div>
+
+  <div class="main">
+
+    <!-- ══ 1 喵语输入 ══ -->
+    <div class="card">
+      <div class="ct"><span class="num">1</span>喵语输入<span class="af">音频 / 视频</span></div>
+
+      <div class="picker" id="drop">
+        <div class="ball">
+          <svg viewBox="0 0 24 24" fill="none">
+            <ellipse cx="8.2" cy="7.6" rx="2.05" ry="2.5" fill="#1E2439"/>
+            <ellipse cx="15.8" cy="7.6" rx="2.05" ry="2.5" fill="#1E2439"/>
+            <ellipse cx="4.4" cy="11.6" rx="1.8" ry="2.2" fill="#1E2439"/>
+            <ellipse cx="19.6" cy="11.6" rx="1.8" ry="2.2" fill="#1E2439"/>
+            <path d="M12 11.4c2.6 0 4.9 2.5 4.9 5.1 0 2.2-2.1 3.6-4.9 3.6s-4.9-1.4-4.9-3.6c0-2.6 2.3-5.1 4.9-5.1Z" fill="#1E2439"/>
+          </svg>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px">
+            上传一段喵语，或现场录一段
+          </div>
+          <div class="hint">音频 wav / mp3 / m4a ｜ 视频 mp4 / mov / webm</div>
+        </div>
+      </div>
+      <input type="file" id="file" accept="audio/*,video/*" hidden>
+
+      <div class="filebar" id="filebar">
+        <span class="dot"></span>
+        <span class="nm" id="fname"></span>
+        <button class="ghost" id="clear">重选</button>
+      </div>
+      <audio id="player" controls preload="metadata"></audio>
+      <video id="vplayer" controls preload="metadata" playsinline></video>
+
+      <div class="row2">
+        <button class="ghost rec" id="rec">🔴 现场录一段</button>
+        <button class="ghost" id="demo">🎵 试听示例</button>
+        <span class="tipwrap">
+          <button class="ghost tipbtn" id="tipBtn" type="button"
+                  aria-label="怎么录更容易被听懂" aria-expanded="false">?</button>
+            <div class="tippop" id="tipPop" role="tooltip">
+            <div class="tippop-h">怎么录更容易被听懂</div>
+            <div class="tippop-l"><i>1</i><span>离猫 1 米以内，避开电视、抽油烟机和说话声</span></div>
+            <div class="tippop-l"><i>2</i><span>只截它「喵」的那一声（1–8 秒），别放一大段</span></div>
+            <div class="tippop-l"><i>3</i><span>呼噜、哈气、低吼不是「喵」，目前还听不出来</span></div>
+            <div class="tippop-h" style="margin-top:10px">传视频的话，我会顺便看一眼画面</div>
+            <div class="tippop-l"><i>1</i><span>让猫占画面大一点、光线亮一点 —— 太远、太暗我认不出</span></div>
+            <div class="tippop-l"><i>2</i><span>手别抖。画面前后晃动时，我分不清是你在晃还是它在动</span></div>
+            <div class="tippop-l"><i>3</i><span>30 秒以内的一段就够，更长的我只看前 30 秒</span></div>
+          </div>
+        </span>
+      </div>
+
+      <div class="err" id="err"></div>
+
+      <button class="go" id="go" disabled>开始听这段喵语</button>
+    </div>
+
+    <!-- ══ 2 声波分析 ══ -->
+    <div class="card lab" id="lab">
+      <div class="ct"><span class="num">2</span>喵星语解析中<span class="af" id="labTag">SIGNAL · ANALYSIS</span></div>
+
+      <div class="scope">
+        <div class="scope-hd live"><span class="led r"></span>LIVE INPUT<span class="r" id="liveDb">— dBFS</span></div>
+        <canvas id="live"></canvas>
+        <div class="scope-hd"><span class="led" id="wfLed"></span>WAVEFORM<span class="r" id="wfHz">—</span></div>
+        <div class="wv">
+          <canvas id="wave"></canvas>
+          <canvas id="wavePlay"></canvas>
+        </div>
+        <div class="scrub">
+          <span class="tag" id="scanTag">待播放</span>
+          <span class="tm" id="scanTime">0.00 / 0.00 s</span>
+          <span class="lv" id="scanAmp">|x| —</span>
+        </div>
+        <div class="scope-hd mt"><span class="led b"></span>SPECTRUM<span class="r" id="spHz">0 – 4 kHz</span></div>
+        <canvas id="spec"></canvas>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="pipe">
+        <div class="pipe-h">ANALYSIS PIPELINE</div>
+        <div class="step" id="s0"><span class="mk"></span>读取音频<span class="val"></span></div>
+        <div class="step off" id="sV"><span class="mk"></span>抽出画面帧 · 找猫<span class="val"></span></div>
+        <div class="step" id="s1"><span class="mk"></span>裁剪静音段<span class="val"></span></div>
+        <div class="step" id="s2"><span class="mk"></span>提取声学特征<span class="val"></span></div>
+        <div class="step" id="s3"><span class="mk"></span>闸门判定 · 是否为猫叫<span class="val"></span></div>
+        <div class="step" id="s4"><span class="mk"></span>情绪三分类<span class="val"></span></div>
+      </div>
+    </div>
+
+    <!-- ══ 3 结论 ══ -->
+    <div class="card result" id="result">
+      <div class="ct"><span class="num">3</span>喵星语解析结果</div>
+      <div id="body"></div>
+      <div class="fb" id="fb">
+        <span class="fb-q">这次翻得准吗？</span>
+        <button class="fb-btn ok" id="fbOk" type="button">👍 翻得准</button>
+        <button class="fb-btn no" id="fbNo" type="button">👎 翻错了</button>
+        <span class="fb-msg" id="fbMsg"></span>
+      </div>
+      <div class="foot">
+        <b>趣味解读 · 仅供娱乐</b><br>
+        不构成任何诊断或行为建议｜音频仅在本机处理，不上传服务器
+      </div>
+    </div>
+
+    <!-- ══ 4 历史记录 ══ -->
+    <div class="card hist" id="hist" style="display:none">
+      <div class="ct"><span class="num">4</span>历史记录<span class="af" id="histCount"></span></div>
+      <div class="hist-head">
+        <button class="hist-export" id="histExport" type="button">⬇ 导出标注</button>
+        <button class="clearb" id="histClear" type="button">清空</button>
+      </div>
+      <div class="hist-list" id="histList"></div>
+      <div class="hist-empty" id="histEmpty">还没有记录，先去翻一段喵语吧～</div>
+    </div>
+
+    <!-- ══ 5 喵语档案馆 ══ -->
+    <div class="card arc" id="arc" style="display:none">
+      <div class="ct"><span class="num">5</span>喵语档案馆<span class="af" id="arcCount"></span></div>
+      <div class="arc-head">
+        <span class="arc-hint" style="margin-bottom:0">翻译过的原始音频都会留档在本机，攒够了就是带情绪标注的真实训练数据</span>
+        <button class="arc-refresh" id="arcRefresh" type="button">⟳ 刷新</button>
+        <button class="arc-export" id="arcExport" type="button">⬇ 导出清单</button>
+      </div>
+      <div class="arc-list" id="arcList"></div>
+      <div class="arc-empty" id="arcEmpty">档案馆还是空的，先去翻一段喵语吧～</div>
+    </div>
+
+    <div class="foot" style="margin-top:6px">
+      情绪识别为三分类，测试集准确率约 <b>62%</b>；闸门（猫叫/非猫叫）准确率约 <b>93%</b><br>
+      它只学过 21 只猫的叫声 —— 很多猫一起叫、或者环境太吵的时候会<b>拿不准</b>，那种时候它会直说<br>
+      传视频时，画面只用来判断「有没有猫、在哪、多大、动没动」—— 猫的情绪仍然只由声音判断<br>
+      它会偶尔猜错，请当成一只认真的猫，而不是一台精确的仪器
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $=function(s){ return document.querySelector(s); };
+
+  /* 画布内文字也用同一套字体，避免和界面字体打架 */
+  var FONT='"Microsoft YaHei UI","Microsoft YaHei","微软雅黑","Segoe UI",sans-serif';
+
+  var drop=$('#drop'), fileInput=$('#file'), player=$('#player'), vplayer=$('#vplayer');
+  var go=$('#go'), fname=$('#fname'), filebar=$('#filebar');
+  var errBox=$('#err'), result=$('#result'), lab=$('#lab');
+  var recBtn=$('#rec');
+
+  var file=null, mediaKind='audio', mediaRec=null, chunks=[], recording=false, timer=null, t0=0;
+  /* 扫描/波形跟着"正在放的那个元素"走：视频用 <video>，音频用 <audio>，避免两路同时出声 */
+  function playEl(){
+    return (vplayer && vplayer.getAttribute('src')) ? vplayer : player;
+  }
+  /* 判断这次上传的是视频还是音频：MIME 优先，扩展名兜底。
+     .webm 默认按音频（浏览器录音就是 audio/webm），只有 MIME 明说是 video 才当视频 */
+  var VIDEO_EXT_LIST=['mp4','mov','m4v','avi','mkv','wmv','flv','3gp','mpg','mpeg','ts','mts'];
+  function guessKind(f){
+    var t=(f.type||'').toLowerCase();
+    if(t.indexOf('video/')===0) return 'video';
+    if(t.indexOf('audio/')===0) return 'audio';
+    var ext=(f.name.split('.').pop()||'').toLowerCase();
+    return VIDEO_EXT_LIST.indexOf(ext)>=0 ? 'video' : 'audio';
+  }
+  var lastDecoded=null;   // {samples, sr, peak, rms, f0, dur}
+  var lastPCM=null;       // {s, sr, pk} 留一份原始样本，窗口缩放时重画
+  /* ═══ 眨眼 ═══ */
+  var pupils=[].slice.call(document.querySelectorAll('.pupil')).map(function(el){
+    return {el:el, ry:el.getAttribute('ry')};   // 记下原始竖瞳高度，缩放插画后不需改代码
+  });
+  setInterval(function(){
+    if(Math.random()<0.45){
+      pupils.forEach(function(o){ o.el.setAttribute('ry', (o.ry*0.13).toFixed(2)); });
+      setTimeout(function(){ pupils.forEach(function(o){ o.el.setAttribute('ry', o.ry); }); },135);
+    }
+  },3200);
+
+  /* ═══ 文件 ═══ */
+  drop.onclick=function(){ fileInput.click(); };
+  ['dragenter','dragover'].forEach(function(ev){
+    drop.addEventListener(ev,function(e){ e.preventDefault(); drop.classList.add('on'); });
+  });
+  ['dragleave','drop'].forEach(function(ev){
+    drop.addEventListener(ev,function(e){ e.preventDefault(); drop.classList.remove('on'); });
+  });
+  drop.addEventListener('drop',function(e){ if(e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
+  fileInput.onchange=function(){ if(fileInput.files[0]) setFile(fileInput.files[0]); };
+  $('#clear').onclick=function(e){ e.stopPropagation(); reset(); fileInput.click(); };
+
+  function reset(){
+    file=null; mediaKind='audio'; go.disabled=true; go.textContent='开始听这段喵语';
+    filebar.classList.remove('on');
+    player.classList.remove('on'); player.removeAttribute('src');
+    vplayer.classList.remove('on'); vplayer.removeAttribute('src');
+    result.classList.remove('on'); result.classList.remove('reject');    lab.classList.remove('on');
+    if(fbEl) fbEl.classList.remove('on');
+    errBox.textContent=''; lastDecoded=null;
+    resetPipe();
+    stopScan(); waveEnv=null; resetScanView(); lastPCM=null;
+  }
+
+  function setFile(f){
+    file=f;
+    mediaKind=guessKind(f);
+    fname.textContent=f.name;
+    filebar.classList.add('on');
+    if(mediaKind==='video'){
+      vplayer.src=URL.createObjectURL(f); vplayer.classList.add('on');
+      player.classList.remove('on'); player.removeAttribute('src');
+    }else{
+      player.src=URL.createObjectURL(f); player.classList.add('on');
+      vplayer.classList.remove('on'); vplayer.removeAttribute('src');
+    }
+    go.disabled=false; go.textContent='开始分析 🐾';
+    result.classList.remove('on'); result.classList.remove('reject');
+    errBox.textContent='';
+    lab.classList.add('on');
+    resetPipe();
+    $('#sV').className='step'+(mediaKind==='video'?'':' off');   // 视觉那一步只在视频时露出来
+    runAnalysis(f);
+  }
+
+  /* ═══ 流程步骤 ═══ */
+  var STEP_IDS=['s0','s1','s2','s3','s4'];
+  function resetPipe(){
+    STEP_IDS.forEach(function(id){
+      var e=$('#'+id);
+      e.className='step';
+      e.querySelector('.val').textContent='';
+    });
+    var v=$('#sV');
+    if(v){ v.className='step off'; v.querySelector('.val').textContent=''; }
+  }
+  function setStep(i,st,val){
+    var e=$('#'+STEP_IDS[i]);
+    e.className='step'+(st?' '+st:'');
+    if(val!=null) e.querySelector('.val').textContent=val;
+  }
+  function setVis(st,val){
+    var e=$('#sV');
+    if(!e) return;
+    e.className='step'+(st?' '+st:'')+(mediaKind==='video'?'':' off');
+    if(val!=null) e.querySelector('.val').textContent=val;
+  }
+  function doneAll(){ STEP_IDS.forEach(function(id,i){ setStep(i,'done'); }); }
+
+  /* ═══ 分析：真实解码 + 真实 FFT ═══ */
+  function runAnalysis(f){
+    var bufP = (f.arrayBuffer ? f.arrayBuffer() : Promise.reject(new Error('no arrayBuffer')));
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC){ showNoWave('当前浏览器不支持音频解码'); return; }
+    var ac = new AC();
+
+    bufP.then(function(buf){
+      var ab = buf.slice(0);
+      return new Promise(function(res,rej){
+        var p = ac.decodeAudioData(ab, res, rej);
+        if(p && p.then) p.then(res, rej);
+      });
+    }).then(function(audio){
+      var ch = audio.getChannelData(0);
+      var sr = audio.sampleRate;
+      var s = ch;
+      if(ch.length > sr*90) s = ch.subarray(0, sr*90);   // 太长只取前 90 秒
+
+      // --- 指标 ---
+      var peak=0, sum=0, zc=0;
+      for(var i=0;i<s.length;i++){
+        var v=s[i], av=v<0?-v:v;
+        if(av>peak) peak=av;
+        sum+=v*v;
+        if(i>0 && ((s[i-1]<0&&v>=0)||(s[i-1]>=0&&v<0))) zc++;
+      }
+      var rms = Math.sqrt(sum/Math.max(1,s.length));
+      var dur = s.length/sr;
+      var f0 = estF0(s, sr);
+      var clip = peak > 1.0;        // 数字满刻度上限，超出即削顶
+      var pk = clip ? 1.0 : peak;
+
+      lastDecoded = {sr:sr, peak:pk, rms:rms, f0:f0, dur:dur, n:s.length};
+      lastPCM = {s:s, sr:sr, pk:pk||1};
+
+      drawWave(s, pk||1);
+      drawSpec(s, sr);
+      stopScan(); resetScanView();   // 波形已就绪，读数条回到「待扫描」
+
+      $('#wfHz').textContent = (sr/1000).toFixed(1)+' kHz · '+dur.toFixed(2)+' s';
+      $('#labTag').textContent = 'SIGNAL · '+(sr/1000).toFixed(1)+' kHz';
+
+      $('#stats').innerHTML =
+        stat((dur).toFixed(2),'DURATION (s)') +
+        stat((sr/1000).toFixed(1),'RATE (kHz)') +
+        stat(pk.toFixed(3), clip?'PEAK · CLIP':'PEAK') +
+        stat(rms.toFixed(4),'RMS') +
+        stat(f0?Math.round(f0):'—','F0 EST (Hz)') +
+        stat(zc,'ZERO-CROSS');
+
+      setStep(0,'done',(sr/1000).toFixed(1)+' kHz');
+      setStep(1,'done',dur.toFixed(2)+' s');
+    }).catch(function(err){
+      showNoWave('该格式无法在浏览器端解析波形（翻译仍可进行）');
+    });
+  }
+
+  function stat(v,k){
+    return '<div class="stat"><div class="v">'+v+'</div><div class="k">'+k+'</div></div>';
+  }
+  function showNoWave(msg){
+    $('#stats').innerHTML='<div style="grid-column:1/-1;font-size:12px;color:#94A9BC;text-align:center;padding:8px 0">'+msg+'</div>';
+    $('#wave').getContext('2d').clearRect(0,0,999,999);
+    $('#spec').getContext('2d').clearRect(0,0,999,999);
+    stopScan(); waveEnv=null; clearPlayLayer();
+    setScrub('', '无波形', '—', '|x| —');
+  }
+
+  /* ═══ 基频粗估（自相关）═══ */
+  function estF0(s, sr){
+    var minLag=Math.floor(sr/1000), maxLag=Math.floor(sr/50);
+    if(s.length < maxLag*2) return 0;
+    var start=Math.floor(s.length*0.25), win=Math.min(sr*0.05, s.length-start);
+    if(win<maxLag*2) return 0;
+    var seg=s.subarray(start,start+win);
+    var best=0, bestLag=0;
+    for(var lag=minLag; lag<maxLag; lag++){
+      var sum=0;
+      for(var i=0;i<win-lag;i+=2) sum += seg[i]*seg[i+lag];
+      sum = sum/((win-lag)/2);
+      if(sum>best){ best=sum; bestLag=lag; }
+    }
+    if(bestLag===0) return 0;
+    var f=sr/bestLag;
+    return (f>=50 && f<=1000) ? f : 0;
+  }
+
+  /* ═══ Canvas 适配 ═══ */
+  function fit(cv){
+    var dpr=window.devicePixelRatio||1;
+    var w=cv.clientWidth||320, h=cv.clientHeight||80;
+    if(cv.width!==Math.round(w*dpr)||cv.height!==Math.round(h*dpr)){
+      cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+    }
+    var ctx=cv.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx, w:w, h:h};
+  }
+
+  function grid(ctx,w,h,rows,cols){
+    ctx.strokeStyle='rgba(255,255,255,.055)';
+    ctx.lineWidth=1;
+    for(var i=1;i<rows;i++){
+      var y=Math.round(h*i/rows)+.5;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke();
+    }
+    for(var j=1;j<cols;j++){
+      var x=Math.round(w*j/cols)+.5;
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke();
+    }
+  }
+
+  /* ═══ 波形 ═══ */
+  var waveEnv=null;   // 每列峰谷缓存：动态层直接复用，不用重复扫样本
+  function drawWave(samples, peak){
+    var cv=$('#wave'); if(!cv) return;
+    var o=fit(cv), ctx=o.ctx, w=o.w, h=o.h;
+    ctx.clearRect(0,0,w,h);
+    grid(ctx,w,h,4,10);
+
+    // 中线
+    ctx.strokeStyle='rgba(255,255,255,.16)';
+    ctx.beginPath(); ctx.moveTo(0,h/2+.5); ctx.lineTo(w,h/2+.5); ctx.stroke();
+
+    var mid=h/2, amp=(h/2)*0.86, step=Math.max(1,Math.floor(samples.length/w));
+    var eTop=new Float32Array(w), eBot=new Float32Array(w);
+    for(var x=0;x<w;x++){
+      var i0=x*step, i1=Math.min(i0+step, samples.length);
+      var mn=1, mx=-1;
+      for(var i=i0;i<i1;i++){
+        var v=samples[i]/peak;
+        if(v<mn) mn=v; if(v>mx) mx=v;
+      }
+      if(mn>mx){ mn=0; mx=0; }
+      eTop[x]=mid-mx*amp;
+      eBot[x]=mid-mn*amp;
+    }
+    waveEnv={top:eTop, bot:eBot, mid:mid, amp:amp, w:w, h:h, n:samples.length};
+
+    var grad=ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0,'#FFE066'); grad.addColorStop(.5,'#FBC91B'); grad.addColorStop(1,'#FFE066');
+    paintEnv(ctx, 0, w-1, grad);
+  }
+
+  /* 按列填波形，只画 fromX..toX 这一段（动态层要按进度裁切） */
+  function paintEnv(ctx, fromX, toX, style){
+    if(!waveEnv) return;
+    var top=waveEnv.top, bot=waveEnv.bot, w=waveEnv.w;
+    var a=Math.max(0, Math.round(fromX)), b=Math.min(w-1, Math.round(toX));
+    if(b<a) return;
+    ctx.fillStyle=style;
+    for(var x=a;x<=b;x++){
+      var y0=top[x], bh=bot[x]-top[x];
+      if(bh<1) bh=1;
+      ctx.fillRect(x, y0, 1, bh);
+    }
+  }
+
+  /* ══════════ 波形动态回放 ══════════
+     底图（#wave）是静态的；上面叠一层 #wavePlay，
+     点「开始分析」时音频真的播起来，扫描线从左扫到右，
+     扫过的一段用近白色重绘 —— 一眼看得出哪一段被"读"过了。 */
+  var scanOn=false, scanRAF=null, scanMode='timer', scanStarted=false;
+  var scanProg=0, scanCur=0, scanT0=0, scanDur=0, scanFallback=2.4;
+
+  function fmtSec(v){
+    v=v||0; if(!isFinite(v)) v=0;
+    return v.toFixed(2);
+  }
+  function setScrub(cls, tag, tm, lv){
+    var s=$('.scrub'); if(!s) return;
+    s.className='scrub'+(cls?' '+cls:'');
+    if(tag!=null && $('#scanTag')) $('#scanTag').textContent=tag;
+    if(tm!=null  && $('#scanTime')) $('#scanTime').textContent=tm;
+    if(lv!=null  && $('#scanAmp')) $('#scanAmp').textContent=lv;
+  }
+  function clearPlayLayer(){
+    var cv=$('#wavePlay'); if(!cv) return;
+    var o=fit(cv); o.ctx.clearRect(0,0,o.w,o.h);
+  }
+  function resetScanView(){
+    clearPlayLayer();
+    var sc=$('.scope'); if(sc) sc.classList.remove('scanning');
+    var d=(lastDecoded&&lastDecoded.dur)||0;
+    setScrub('', '待扫描', '0.00 / '+fmtSec(d)+' s', '|x| —');
+  }
+
+  function drawPlayhead(prog, curSec){
+    var cv=$('#wavePlay'); if(!cv||!waveEnv) return;
+    var o=fit(cv), ctx=o.ctx, w=o.w, h=o.h;
+    ctx.clearRect(0,0,w,h);
+    if(prog<=0) return;
+    var cut=prog*w;
+
+    /* ① 已扫过的一段：近白重绘，和底图的金黄拉开对比 */
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,0,cut,h); ctx.clip();
+    var g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,'#FFFDF2'); g.addColorStop(.5,'#FFF3B8'); g.addColorStop(1,'#FFFDF2');
+    paintEnv(ctx, 0, cut, g);
+    /* ② 扫过区域加一层暖色底光，做出"被读过"的质感 */
+    var tail=Math.min(34, cut);
+    if(tail>0){
+      var wg=ctx.createLinearGradient(cut-tail,0,cut,0);
+      wg.addColorStop(0,'rgba(251,201,27,0)');
+      wg.addColorStop(.72,'rgba(251,201,27,.10)');
+      wg.addColorStop(1,'rgba(255,224,102,.30)');
+      ctx.fillStyle=wg; ctx.fillRect(cut-tail,0,tail,h);
+    }
+    ctx.restore();
+
+    /* ③ 扫描亮线 + 光晕 */
+    var gl=Math.min(h*0.9, cut);
+    if(gl>0){
+      var rg=ctx.createRadialGradient(cut,h/2,0,cut,h/2,h*0.9);
+      rg.addColorStop(0,'rgba(255,224,102,.32)');
+      rg.addColorStop(1,'rgba(255,224,102,0)');
+      ctx.fillStyle=rg; ctx.fillRect(cut-gl,0,gl*2>w-cut?w-cut:gl*2,h);
+    }
+    ctx.fillStyle='#FFE066';
+    ctx.fillRect(Math.round(cut)-1,0,2,h);
+
+    /* ④ 当前这一刻的振幅亮点 —— 直观看出波有多高 */
+    var idx=Math.min(waveEnv.w-1, Math.max(0, Math.round(cut)-1));
+    ctx.beginPath(); ctx.arc(cut, waveEnv.top[idx], 2.4, 0, 6.2832); ctx.fill();
+    ctx.beginPath(); ctx.arc(cut, waveEnv.bot[idx], 2.4, 0, 6.2832); ctx.fill();
+  }
+
+  function startScan(){
+    if(!waveEnv) return;
+    stopScan(true);
+    var el=playEl();
+    var dec=(lastDecoded&&lastDecoded.dur)||0;
+    scanDur = dec || ((el && isFinite(el.duration) && el.duration>0) ? el.duration : 0) || 2.4;
+    scanFallback=Math.max(1.2, Math.min(scanDur, 4.5));
+    scanProg=0; scanCur=0; scanT0=performance.now(); scanStarted=false;
+
+    scanMode='timer';
+    if(el && el.src){
+      scanMode='audio';
+      try{
+        el.currentTime=0;
+        var p=el.play();                       // 用户手势内调用，允许自动播放
+        if(p && p.catch) p.catch(function(){});
+      }catch(e){ scanMode='timer'; }
+    }
+    scanOn=true;
+    var sc=$('.scope'); if(sc) sc.classList.add('scanning');
+    setScrub('on', '扫描中', '0.00 / '+fmtSec(scanDur)+' s', '|x| —');
+    drawPlayhead(0, 0);
+    scanRAF=requestAnimationFrame(scanLoop);
+  }
+
+  function scanLoop(){
+    if(!scanOn) return;
+    var el=playEl();
+    var prog=scanProg, cur=scanCur, tag='扫描中';
+
+    if(scanMode==='audio' && el && el.src && el.ended){
+      prog=1; cur=scanDur; tag='读完';
+    } else if(scanMode==='audio' && el && el.src){
+      var d=(isFinite(el.duration)&&el.duration>0)?el.duration:scanDur;
+      if(el.paused){
+        if(performance.now()-scanT0>400 && el.currentTime<=0.02){
+          scanMode='timer'; scanT0=performance.now();   // play() 被拦下 → 改走定时扫描
+        }else{
+          // 还没真正起播就别报"已暂停"；真播过又停住才是用户按的暂停
+          tag = scanStarted ? '已暂停' : '启动中';
+        }
+      }else{
+        scanStarted=true;
+        prog = d>0 ? el.currentTime/d : 0;
+        cur  = el.currentTime;
+      }
+    }
+    if(scanMode==='timer'){
+      var e=(performance.now()-scanT0)/1000;
+      prog=e/scanFallback;
+      cur=Math.min(1,prog)*scanDur;
+    }
+
+    if(!isFinite(prog)) prog=0;
+    prog=Math.max(0,Math.min(1,prog));
+    scanProg=prog; scanCur=cur;
+
+    drawPlayhead(prog, cur);
+
+    /* 当刻振幅读数：既能看出波的高低，也证明它是真在跑 */
+    var idx=Math.min(waveEnv.w-1, Math.max(0, Math.round(prog*waveEnv.w)-1));
+    var d1=Math.abs(waveEnv.mid-waveEnv.top[idx]);
+    var d2=Math.abs(waveEnv.mid-waveEnv.bot[idx]);
+    var lv=Math.min(1, Math.max(d1,d2)/waveEnv.amp);
+    setScrub('on', tag,
+      fmtSec(Math.min(cur,scanDur))+' / '+fmtSec(scanDur)+' s',
+      '|x| '+lv.toFixed(2)+' · '+(lv>0.66?'强':lv>0.28?'中':'弱'));
+
+    if(prog>=1){ finishScan(); return; }
+    scanRAF=requestAnimationFrame(scanLoop);
+  }
+
+  function finishScan(){
+    if(scanRAF){ cancelAnimationFrame(scanRAF); scanRAF=null; }
+    scanOn=false;
+    drawPlayhead(1, scanDur);
+    setScrub('done', '已读完', fmtSec(scanDur)+' / '+fmtSec(scanDur)+' s', '波形完整');
+    // 留 2.6 秒让人看清完整波形，再交回静态底图
+    setTimeout(function(){
+      if(scanOn) return;
+      var sc=$('.scope'); if(sc) sc.classList.remove('scanning');
+      clearPlayLayer();
+      setScrub('', '待扫描', '0.00 / '+fmtSec(scanDur)+' s', '|x| —');
+    }, 2600);
+  }
+
+  function stopScan(keepDim){
+    if(scanRAF){ cancelAnimationFrame(scanRAF); scanRAF=null; }
+    scanOn=false;
+    if(!keepDim){
+      var sc=$('.scope'); if(sc) sc.classList.remove('scanning');
+    }
+  }
+
+  /* 手动按下播放键，波形也一样跟着动 */
+  function bindPlayerScan(){
+    if(!player || !player.addEventListener) return;
+    player.addEventListener('play', function(){ if(!scanOn && waveEnv) startScan(); });
+    player.addEventListener('ended', function(){ if(scanOn) finishScan(); });
+  }
+  bindPlayerScan();
+
+  /* 窗口尺寸变了要按新宽度重画，否则覆层会和底图错位 */
+  var rsTimer=null;
+  window.addEventListener('resize', function(){
+    if(rsTimer) clearTimeout(rsTimer);
+    rsTimer=setTimeout(function(){
+      if(!lastPCM) return;
+      drawWave(lastPCM.s, lastPCM.pk);
+      drawSpec(lastPCM.s, lastPCM.sr);
+      if(scanOn) drawPlayhead(scanProg, scanCur);
+    }, 180);
+  });
+
+  /* ═══ 频谱图 ═══ */
+  var NFFT=512, HOP=256;
+  function drawSpec(samples, sr){
+    var cv=$('#spec'); if(!cv) return;
+    var o=fit(cv), ctx=o.ctx, w=o.w, h=o.h;
+    ctx.clearRect(0,0,w,h);
+
+    var maxHz=Math.min(4000, sr/2);
+    var binHz=sr/NFFT;
+    var maxBin=Math.max(2, Math.min(NFFT>>1, Math.round(maxHz/binHz)));
+    var maxFrame=Math.max(1, Math.floor(w/2));
+
+    var totalFrames=Math.floor((samples.length-NFFT)/HOP)+1;
+    if(totalFrames<1){ grid(ctx,w,h,4,10); return; }
+    var frameStep=Math.max(1, Math.floor(totalFrames/maxFrame));
+    var cols=Math.floor(totalFrames/frameStep);
+    var colW=w/cols;
+
+    var re=new Float64Array(NFFT), im=new Float64Array(NFFT);
+    var hann=new Float64Array(NFFT);
+    for(var i=0;i<NFFT;i++) hann[i]=0.5-0.5*Math.cos(2*Math.PI*i/(NFFT-1));
+
+    // 先算一遍求最大值，做归一化
+    var amps=[], gmax=1e-9;
+    for(var f=0; f<totalFrames; f+=frameStep){
+      var off=f*HOP;
+      for(var k=0;k<NFFT;k++){ re[k]=samples[off+k]*hann[k]; im[k]=0; }
+      fftMag(re,im);
+      var col=new Float32Array(maxBin);
+      for(var b=0;b<maxBin;b++){
+        var m=Math.sqrt(re[b]*re[b]+im[b]*im[b]);
+        col[b]=m;
+        if(m>gmax) gmax=m;
+      }
+      amps.push(col);
+    }
+
+    var rowH=h/maxBin;
+    for(var c=0;c<amps.length;c++){
+      var col2=amps[c], x=Math.round(c*colW);
+      var cw=Math.max(1, Math.ceil(colW));
+      for(var b2=0;b2<maxBin;b2++){
+        var t=col2[b2]/gmax;
+        t=Math.pow(t,0.42);
+        var y=h-(b2+1)*rowH;
+        ctx.fillStyle=beat(t);
+        ctx.fillRect(x, y, cw, Math.max(1,rowH+0.6));
+      }
+    }
+    // 边框
+    ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=1;
+    ctx.strokeRect(.5,.5,w-1,h-1);
+
+    // 频率轴刻度（kHz）· 让它像一台真的仪器
+    ctx.font='9px '+FONT;
+    ctx.textBaseline='middle';
+    for(var hk=1000; hk<maxHz; hk+=1000){
+      var ty=Math.round(h-(hk/binHz+0.5)*rowH)+.5;
+      if(ty<9||ty>h-7) continue;
+      ctx.strokeStyle='rgba(255,255,255,.13)';
+      ctx.beginPath(); ctx.moveTo(0,ty); ctx.lineTo(w,ty); ctx.stroke();
+      var lb=(hk/1000)+'k';
+      var tw=Math.ceil(ctx.measureText(lb).width);
+      ctx.fillStyle='rgba(13,19,34,.74)'; ctx.fillRect(w-tw-8,ty-5,tw+7,10);
+      ctx.fillStyle='rgba(198,210,231,.88)'; ctx.fillText(lb,w-tw-4,ty);
+    }
+    // 0 Hz 基线
+    var l0='0', tw0=Math.ceil(ctx.measureText(l0).width);
+    ctx.fillStyle='rgba(13,19,34,.74)'; ctx.fillRect(w-tw0-8,h-12,tw0+7,10);
+    ctx.fillStyle='rgba(198,210,231,.72)'; ctx.fillText(l0,w-tw0-4,h-6.5);
+    // 时间轴方向
+    ctx.fillStyle='rgba(140,151,176,.85)'; ctx.fillText('t →',5,h-6.5);
+  }
+
+  /* 热力配色：深蓝 → 青 → 黄 → 白热 */
+  function beat(t){
+    if(t<=0) return '#0A1A2C';
+    var r,g,b;
+    if(t<0.25){ var k=t/0.25;      r=13+k*20;   g=19+k*60;   b=34+k*130; }
+    else if(t<0.55){ var k2=(t-.25)/.3; r=33+k2*60;  g=79+k2*130; b=164+k2*20; }
+    else if(t<0.8){ var k3=(t-.55)/.25; r=93+k3*162; g=209-k3*40; b=184-k3*170; }
+    else { var k4=(t-.8)/.2; r=255; g=169+k4*80; b=14+k4*180; }
+    return 'rgb('+(r|0)+','+(g|0)+','+(b|0)+')';
+  }
+
+  /* 原地 FFT（Cooley-Tukey radix-2） */
+  function fftMag(re, im){
+    var n=re.length;
+    for(var i=1,j=0;i<n;i++){
+      var bit=n>>1;
+      for(;j&bit;bit>>=1) j^=bit;
+      j^=bit;
+      if(i<j){ var t=re[i];re[i]=re[j];re[j]=t; t=im[i];im[i]=im[j];im[j]=t; }
+    }
+    for(var len=2;len<=n;len<<=1){
+      var ang=-2*Math.PI/len, wr=Math.cos(ang), wi=Math.sin(ang), half=len>>1;
+      for(var i2=0;i2<n;i2+=len){
+        var cr=1, ci=0;
+        for(var j2=0;j2<half;j2++){
+          var ur=re[i2+j2], ui=im[i2+j2];
+          var vr=re[i2+j2+half]*cr - im[i2+j2+half]*ci;
+          var vi=re[i2+j2+half]*ci + im[i2+j2+half]*cr;
+          re[i2+j2]=ur+vr; im[i2+j2]=ui+vi;
+          re[i2+j2+half]=ur-vr; im[i2+j2+half]=ui-vi;
+          var ncr=cr*wr-ci*wi; ci=cr*wi+ci*wr; cr=ncr;
+        }
+      }
+    }
+  }
+
+  var rz=null;
+  window.addEventListener('resize',function(){
+    clearTimeout(rz);
+    rz=setTimeout(function(){ if(lastDecoded){} },120);
+  });
+
+  /* ═══ 现场录音 · 实时示波器 ═══ */
+  var liveCv=$('#live'), scopeEl=$('.scope'), liveDbEl=$('#liveDb');
+  var liveAc=null, liveAnalyser=null, liveBuf=null, liveRAF=null;
+  var liveEnvMax=[], liveEnvMin=[], liveTick=0, liveDim=null;
+
+  function liveFit(){
+    var w=liveCv.clientWidth||372, h=liveCv.clientHeight||64;
+    var dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+    liveCv.width=Math.round(w*dpr); liveCv.height=Math.round(h*dpr);
+    var ctx=liveCv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+    liveDim={ctx:ctx,w:w,h:h};
+    liveEnvMax=[]; liveEnvMin=[];
+    for(var i=0;i<w;i++){ liveEnvMax.push(0); liveEnvMin.push(0); }
+  }
+  function startLive(stream){
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext;
+      liveAc=new AC();
+      liveAnalyser=liveAc.createAnalyser();
+      liveAnalyser.fftSize=2048; liveAnalyser.smoothingTimeConstant=0.15;
+      liveAc.createMediaStreamSource(stream).connect(liveAnalyser);
+      liveBuf=new Uint8Array(liveAnalyser.fftSize);
+      liveTick=0;
+      scopeEl.classList.add('rec');
+      lab.classList.add('on');                 // 录音即开始采集，仪器面板亮起
+      setStep(0,'run','录音中');
+      liveFit();
+      liveLoop();
+    }catch(e){ /* 降级：不显示实时波形，不影响录音本身 */ }
+  }
+  function liveLoop(){
+    if(!liveAnalyser) return;
+    liveAnalyser.getByteTimeDomainData(liveBuf);
+    liveTick++;
+    if(liveTick%2===0){
+      var n=liveBuf.length, mn=1, mx=-1, abs=0, zc=0, prev=(liveBuf[0]-128)/128;
+      for(var i=0;i<n;i++){
+        var v=(liveBuf[i]-128)/128;
+        if(v<mn) mn=v;
+        if(v>mx) mx=v;
+        var av=v<0?-v:v; if(av>abs) abs=av;
+        if((prev<0&&v>=0)||(prev>0&&v<=0)) zc++;
+        prev=v;
+      }
+      liveEnvMax.push(mx); liveEnvMin.push(mn);
+      while(liveEnvMax.length>liveDim.w){ liveEnvMax.shift(); liveEnvMin.shift(); }
+      drawLive(abs);
+      var db=20*Math.log10(Math.max(1e-5,abs));
+      var hz=zc/2*(liveAc.sampleRate/n);
+      liveDbEl.textContent=(db>-68?db.toFixed(1):'—')+' dBFS · '+(hz>=40?Math.round(hz)+' Hz':'—');
+    }
+    liveRAF=requestAnimationFrame(liveLoop);
+  }
+  function drawLive(abs){
+    var ctx=liveDim.ctx, w=liveDim.w, h=liveDim.h, mid=h/2, amp=mid*0.9;
+    ctx.clearRect(0,0,w,h);
+    ctx.strokeStyle='rgba(111,168,232,.20)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,mid+.5); ctx.lineTo(w,mid+.5); ctx.stroke();
+    ctx.strokeStyle='rgba(111,168,232,.075)';
+    ctx.beginPath();
+    for(var g=1;g<4;g++){ var gx=Math.round(w*g/4)+.5; ctx.moveTo(gx,0); ctx.lineTo(gx,h); }
+    ctx.stroke();
+    var n=liveEnvMax.length, off=w-n;
+    for(var i=0;i<n;i++){
+      var x=off+i; if(x<0) continue;
+      var y0=mid-liveEnvMax[i]*amp, y1=mid-liveEnvMin[i]*amp;
+      var hh=y1-y0; if(hh<1) hh=1;
+      ctx.fillStyle = abs>0.94 ? '#FF9E9E' : '#FBC91B';
+      ctx.fillRect(x,y0,1,hh);
+    }
+    if(abs>0.94){ ctx.fillStyle='rgba(255,90,90,.9)'; ctx.fillRect(0,0,w,2); }
+  }
+  function stopLive(){
+    if(liveRAF){ cancelAnimationFrame(liveRAF); liveRAF=null; }
+    liveAnalyser=null;
+    if(liveAc){ try{ liveAc.close(); }catch(e){} liveAc=null; }
+    scopeEl.classList.remove('rec');
+    liveDbEl.textContent='— dBFS';
+  }
+  window.addEventListener('resize',function(){ if(recording&&liveDim) liveFit(); });
+
+  /* ═══ 录音小贴士：问号按钮 → 气泡 ═══ */
+  var tipBtn=$('#tipBtn'), tipPop=$('#tipPop');
+  function setTip(open){
+    if(!tipPop) return;
+    tipPop.classList.toggle('on', !!open);
+    if(tipBtn){
+      tipBtn.classList.toggle('on', !!open);
+      tipBtn.setAttribute('aria-expanded', open?'true':'false');
+    }
+  }
+  if(tipBtn){
+    tipBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      setTip(!tipPop.classList.contains('on'));
+    });
+  }
+  if(tipPop){ tipPop.addEventListener('click', function(e){ e.stopPropagation(); }); }
+  document.addEventListener('click', function(){ setTip(false); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') setTip(false); });
+
+  /* ═══ 录音 ═══ */
+  recBtn.onclick=function(){
+    if(recording){ stopRec(); return; }
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      errBox.textContent='这个浏览器不支持录音，改用「上传一段喵语」吧。'; return;
+    }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+      var mime='';
+      if(window.MediaRecorder&&MediaRecorder.isTypeSupported){
+        if(MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) mime='audio/webm;codecs=opus';
+        else if(MediaRecorder.isTypeSupported('audio/webm')) mime='audio/webm';
+      }
+      try{ mediaRec = mime?new MediaRecorder(stream,{mimeType:mime}):new MediaRecorder(stream); }
+      catch(err){ mediaRec=new MediaRecorder(stream); }
+      chunks=[];
+      mediaRec.ondataavailable=function(e){ if(e.data&&e.data.size) chunks.push(e.data); };
+      mediaRec.onstop=function(){
+        stream.getTracks().forEach(function(t){ t.stop(); });
+        stopLive();
+        var blob=new Blob(chunks,{type:mediaRec.mimeType||'audio/webm'});
+        setFile(new File([blob],'现场录音_'+stamp()+'.webm',{type:blob.type}));
+        recBtn.classList.remove('live'); recBtn.textContent='🔴 现场录一段';
+      };
+      mediaRec.start(); recording=true; t0=Date.now();
+      startLive(stream);
+      recBtn.classList.add('live');
+      timer=setInterval(function(){
+        var s=((Date.now()-t0)/1000).toFixed(1);
+        recBtn.textContent='⏹ 正在录 '+s+'s（点一下停）';
+        if(Number(s)>=30) stopRec();
+      },100);
+    }).catch(function(e){
+      errBox.textContent='没能打开麦克风（'+(e&&e.message?e.message:e)+'），可以改用「上传一段喵语」。';
+    });
+  };
+  function stopRec(){
+    if(mediaRec&&recording){ try{ mediaRec.stop(); }catch(e){} }
+    recording=false;
+    if(timer){ clearInterval(timer); timer=null; }
+    if(!mediaRec) stopLive();
+    recBtn.classList.remove('live'); recBtn.textContent='🔴 现场录一段';
+  }
+  function stamp(){
+    var d=new Date(),p=function(n){return n<10?'0'+n:''+n;};
+    return d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+'_'+p(d.getHours())+p(d.getMinutes())+p(d.getSeconds());
+  }
+
+  /* ═══ 试听示例 ═══ */
+  $('#demo').onclick=function(){
+    try{
+      var AC=window.AudioContext||window.webkitAudioContext, ac=new AC();
+      var sr=16000, dur=1.1, n=Math.floor(sr*dur);
+      var b=ac.createBuffer(1,n,sr), ch=b.getChannelData(0);
+      for(var i=0;i<n;i++){
+        var t=i/sr, env=Math.min(1,t/0.06)*Math.exp(-2.2*t);
+        var f=520+220*Math.sin(2*Math.PI*2.4*t);
+        ch[i]=env*(Math.sin(2*Math.PI*f*t)*0.55+Math.sin(2*Math.PI*f*2*t)*0.2)*0.7;
+      }
+      var src=ac.createBufferSource(); src.buffer=b;
+      var g=ac.createGain(); g.gain.value=.5;
+      src.connect(g); g.connect(ac.destination); src.start();
+      setTimeout(function(){ try{ ac.close(); }catch(e){} },1400);
+    }catch(e){}
+  };
+
+  /* ═══ 提交 ═══ */
+  go.onclick=async function(){
+    if(!file) return;
+    go.disabled=true; go.textContent='分析中…';
+    errBox.textContent='';
+    result.classList.remove('on'); result.classList.remove('reject');
+
+    // 让它一边译一边把这段波动起来（音频同步播放，波形跟着扫过去）
+    startScan();
+
+    // 未完成的步骤按真实流程推进（与后端执行顺序一致）
+    var isVideo = (mediaKind==='video');
+    setStep(2,'run');
+    if(isVideo) setVis('run');
+    var ticks=[setTimeout(function(){ setStep(2,'done','268 维'); setStep(3,'run'); },420),
+               setTimeout(function(){ setStep(4,'run'); },900)];
+
+    try{
+      var r=await fetch('/translate',{
+        method:'POST',
+        headers:{'Content-Type':'application/octet-stream','X-Filename':encodeURIComponent(file.name),'X-Media-Kind':mediaKind},
+        body:file
+      });
+      var j=await r.json();
+      if(!j.ok) throw new Error((j.error||'翻译失败')+(j.err?'：'+String(j.err).slice(-160):''));
+      ticks.forEach(clearTimeout);
+      if(!lastDecoded){ setStep(0,'done'); setStep(1,'done'); }
+      setStep(2,'done', j.engine==='ast' ? '768 维' : '268 维');
+      var gm=(j.gate&&j.gate.p_meow!=null)?j.gate.p_meow:null;
+      setStep(3,'done',gm!=null?('p='+gm.toFixed(2)):'—');
+      var top=Object.entries(j.probabilities||{}).sort(function(a,b){return b[1]-a[1];})[0];
+      setStep(4,'done',top?top[0].split(':')[0]+' '+(top[1]*100).toFixed(0)+'%':'—');
+      if(isVideo) setVis('done', visStepLabel(j));
+      render(j);
+    }catch(e){
+      ticks.forEach(clearTimeout);
+      errBox.textContent='没能听清 —— '+e.message;
+      setStep(2,''); setStep(3,''); setStep(4,'');
+      if(isVideo) $('#sV').className='step off';
+    }finally{
+      go.disabled=false; go.textContent='再听一段';
+    }
+  };
+
+  /* 视觉那一步的结果标签 */
+  function visStepLabel(j){
+    var v=j&&j.vision;
+    if(!v || !v.ok) return '没读出来';
+    if(v.media!=='video') return '没有画面';
+    if(!v.has_cat) return '没看到猫';
+    return (v.frames?v.frames.with_cat+'/'+v.frames.sampled:'')+' 帧有猫';
+  }
+
+  /* ═══ 渲染结果 ═══ */
+  /* 画面里看到了什么 —— 只在传视频、且后端给了画面结果时出现。
+     这里只陈述"事实"，不解释含义：猫的情绪一律由声音判断。 */
+  function visBlock(j, bridge){
+    var v=j.vision;
+    if(!v) return '';
+    if(j.media && j.media.kind!=='video') return '';
+    var head='<div class="vis"><div class="h">当时画面里</div>';
+    var foot=(bridge?'<div class="lim">'+bridge+'</div>':'');
+    if(!v.ok){
+      return head+'<div class="none">画面没读出来（可能文件损坏，或者编码不支持）—— 所以这一段我只听了声音。</div>'+foot+'</div>';
+    }
+    if(v.media!=='video'){
+      return head+'<div class="none">这段没有画面，我只听了声音。</div>'+foot+'</div>';
+    }
+    if(!v.has_cat){
+      return head+'<div class="none">我抽了 '+((v.frames&&v.frames.sampled)||0)+' 帧画面，没看到猫 —— 所以这一段我只听了声音。</div>'+
+             (v.tip?'<div class="lim">'+v.tip+'</div>':'')+foot+'</div>';
+    }
+    var c=v.cat||{}, m=v.motion||{}, f=v.frames||{};
+    var facts=['<span class="fact k">看到猫</span>'];
+    if(f.sampled) facts.push('<span class="fact">'+f.with_cat+'/'+f.sampled+' 帧有猫</span>');
+    if(c.stability) facts.push('<span class="fact">'+c.stability+'</span>');
+    if(c.size_label) facts.push('<span class="fact">'+c.size_label+'</span>');
+    if(c.position) facts.push('<span class="fact">'+c.position+'</span>');
+    if(m.level) facts.push('<span class="fact">'+m.level+'</span>');
+    if(c.best_conf!=null) facts.push('<span class="fact">认出是猫 '+(c.best_conf*100).toFixed(1)+'%</span>');
+    return head+
+      (c.thumb?'<div class="shot"><img src="'+c.thumb+'" alt="检测到猫的那一帧">'+
+               '<span class="cap">画面抽帧 · 我看到的这一帧</span></div>':'')+
+      '<div class="facts">'+facts.join('')+'</div>'+
+      '<div class="lim">画面只告诉我它在哪、多大、动没动 —— 它在想什么，是听声音听的。</div>'+
+      foot+
+      '</div>';
+  }
+
+  function render(j){
+    var box=result;
+    saveHistory(j);
+    updateFeedback(j);
+    if(typeof loadArc==='function') loadArc();   // 翻译成功 → 档案馆实时刷新
+    // 视频没有声音、但画面里看到猫 → 只报画面
+    if(j.status==='vision_only'){
+      box.classList.remove('reject');
+      $('#body').innerHTML=
+        '<div class="bubble"><div class="who">听喵说 · 只看到了画面</div>'+
+        '<div class="tx">'+(j.message||'这段视频里没有声音，我就只说说画面里看到的。')+'</div></div>'+
+        visBlock(j);
+      box.classList.add('on');
+      return;
+    }
+    if(j.status==='rejected'){
+      box.classList.add('reject');
+      var pm=(j.gate&&j.gate.p_meow!=null)?j.gate.p_meow:null;
+      var th=(j.gate&&j.gate.threshold!=null)?j.gate.threshold:0.54;
+      $('#body').innerHTML=
+        '<div class="bubble"><div class="who">听喵说 · 有点困惑</div>'+
+        '<div class="tx">'+(j.message||'这段我没听出来是喵叫。')+'</div></div>'+
+        (pm!==null?
+          '<div class="gate"><div class="h">猫叫可能性（低于 '+(th*100).toFixed(0)+'% 会被拦下）</div>'+
+          '<div class="track"><i style="width:'+(pm*100).toFixed(1)+'%"></i>'+
+          '<span class="th" data-t="阈值" style="left:'+(th*100).toFixed(1)+'%"></span></div>'+
+          '<div class="lg"><span>0%</span><span>'+(pm*100).toFixed(1)+'%</span><span>100%</span></div></div>' : '')+
+        visBlock(j, (j.vision&&j.vision.ok&&j.vision.has_cat)?'画面里我确实看到一只猫 —— 它可能只是没出声，或者声音被盖住了。':'');
+      box.classList.add('on');
+      return;
+    }
+    box.classList.remove('reject');
+    // ── 娱乐化展示：情绪是前置状态 → 一句话是主角 → 技术细节收进折叠区 ──
+    var unsure=!!j.uncertain;
+    box.classList.toggle('unsure',unsure);
+    var WHEN_CN={night:'深夜',morning:'清晨',day:'白天',evening:'傍晚',monday:'周一早上'};
+    var SHAPE_CN={short:'干脆一声',long:'拖长音',repeat:'连叫好几声',quiet:'小声',loud:'很大声'};
+    var st=j.state||{};
+    var gatePill=(j.gate&&j.gate.p_meow!=null)?'<span class="pill m">像喵叫 '+(j.gate.p_meow*100).toFixed(0)+'%</span>':'';
+    var probs=Object.entries(j.probabilities||{}).sort(function(a,b){return b[1]-a[1];});
+    var g=(j.gate&&j.gate.p_meow!=null)?j.gate.p_meow:null;
+    var gth=(j.gate&&j.gate.threshold!=null)?j.gate.threshold:0.54;
+    // 画面里不止一只猫 → 声音大概率是"合唱"
+    var sceneNote='';
+    var sc=j.vision&&j.vision.scene;
+    if(sc&&sc.multi_cat) sceneNote='<div class="lim">画面里我看到不止一只猫（最多 '+sc.max_cats+' 只同框）—— 很多猫一起叫的时候，我分不清是哪只在说。</div>';
+    var pills=
+      '<span class="pill y">'+esc(st.name||j.emotion||'')+'</span>'+
+      (st.context?'<span class="pill">'+esc(st.context)+'</span>':'')+
+      (WHEN_CN[j.when]?'<span class="pill">'+WHEN_CN[j.when]+'</span>':'')+
+      (SHAPE_CN[j.shape]?'<span class="pill">'+SHAPE_CN[j.shape]+'</span>':'')+
+      '<span class="pill">'+j.duration_sec+' 秒</span>';
+    var who = unsure ? '听喵说 · 它自己也没想清' : '听喵说 · 它说';
+    $('#body').innerHTML=
+      '<div class="bubble"><div class="who">'+who+'</div>'+
+      '<div class="tx">「'+esc(j.quote||j.translation||'')+'」</div></div>'+
+      '<div class="meta">'+pills+'</div>'+
+      '<div class="acts"><button class="reroll" id="reroll" type="button">换一个说法</button></div>'+
+      visBlock(j)+sceneNote+
+      '<details class="tech"><summary>它是怎么听出来的</summary>'+
+        (g!==null?
+          '<div class="gate"><div class="h">闸门判定 · 这段是猫叫的可能性</div>'+
+          '<div class="track"><i style="width:'+(g*100).toFixed(1)+'%"></i>'+
+          '<span class="th" data-t="阈值" style="left:'+(gth*100).toFixed(1)+'%"></span></div>'+
+          '<div class="lg"><span>0%</span><span>'+(g*100).toFixed(1)+'%</span><span>100%</span></div></div>' : '')+
+        '<div class="prob"><div class="h">它当时大概处在哪种状态</div>'+
+          probs.map(function(kv){
+            return '<div class="row"><div class="lab"><span>'+kv[0]+'</span><b>'+(kv[1]*100).toFixed(1)+'%</b></div>'+
+                   '<div class="bar"><i data-w="'+(kv[1]*100).toFixed(1)+'"></i></div></div>';
+          }).join('')+
+        '</div>'+
+      '</details>';
+    box.classList.add('on');
+    setTimeout(function(){
+      box.querySelectorAll('.bar i').forEach(function(el){ el.style.width=el.getAttribute('data-w')+'%'; });
+    },60);
+    // 「换一个说法」：同一情绪语境里轮换（不跳到别的话题），零输入成本
+    var rq=(j.quotes||[]).slice(), ri=0;
+    var rb=$('#reroll');
+    if(rb) rb.onclick=function(){
+      if(rq.length<2){ rb.disabled=true; rb.textContent='就这一句'; return; }
+      ri=(ri+1)%rq.length;
+      var txEl=box.querySelector('.bubble .tx');
+      if(txEl){ txEl.textContent='「'+rq[ri]+'」'; txEl.classList.remove('pop'); void txEl.offsetWidth; txEl.classList.add('pop'); }
+    };
+  }
+
+  /* ═══ 历史记录 + 反馈闭环 ═══
+     全部存在浏览器 localStorage，不外传任何云端（与全站隐私原则一致）。
+     - 历史：每次翻译成功都存一条，最多 12 条，点列表项可重看。
+     - 反馈：结果页「翻得准/翻错了」→ 存本地标注，可一键导出 JSON，
+       作为以后重训模型、提升准确率的真实标注数据。 */
+  var KEY_HIST='tingmiaoshuo.history.v1', KEY_ANN='tingmiaoshuo.annotations.v1', HIST_MAX=12;
+  var fbEl=$('#fb'), fbOk=$('#fbOk'), fbNo=$('#fbNo'), fbMsg=$('#fbMsg');
+  var histEl=$('#hist'), histList=$('#histList'), histEmpty=$('#histEmpty'), histCount=$('#histCount');
+  var histExport=$('#histExport'), histClear=$('#histClear');
+  var curResult=null, suppressSave=false;
+
+  function safeGet(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(e){ return null; } }
+  function safeSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ return false; } }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function fmtAgo(ts){
+    var d=new Date(ts), p=function(n){return n<10?'0'+n:''+n;};
+    return p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+  }
+  function emojiFor(j){
+    if(j.status==='rejected') return '🚫';
+    if(j.status==='vision_only') return '🎬';
+    var e=(j.emotion||'');
+    if(e.indexOf('满足')>=0) return '😺';
+    if(e.indexOf('期待')>=0) return '🍽️';
+    if(e.indexOf('不安')>=0) return '😿';
+    return '🐱';
+  }
+
+  function saveHistory(j){
+    if(suppressSave){ suppressSave=false; return; }   // 从历史重看时不重复写入
+    if(!j || !j.ok) return;
+    var item={
+      ts:Date.now(),
+      file:(j.media&&j.media.name)||'未命名',
+      media:(j.media&&j.media.kind)||'audio',
+      status:j.status||'translated',
+      emotion:j.emotion||'', context:j.context||'',
+      translation:j.translation||'', confidence:j.confidence||0,
+      p_meow:(j.gate&&j.gate.p_meow!=null)?j.gate.p_meow:null,
+      duration:j.duration_sec||0,
+      _j:j
+    };
+    var arr=safeGet(KEY_HIST)||[];
+    arr.unshift(item);
+    if(arr.length>HIST_MAX) arr=arr.slice(0,HIST_MAX);
+    if(!safeSet(KEY_HIST,arr)){
+      arr=arr.slice(0,Math.max(4,HIST_MAX-4));
+      safeSet(KEY_HIST,arr);
+    }
+    renderHistory();
+  }
+
+  function renderHistory(){
+    var arr=safeGet(KEY_HIST)||[];
+    if(!arr.length){ histEl.style.display='none'; return; }
+    histEl.style.display='';
+    histEmpty.style.display='none';
+    histCount.textContent=arr.length+' 条';
+    histList.innerHTML=arr.map(function(it){
+      var sub=[];
+      if(it.emotion) sub.push('<span class="pill2">'+(it.emotion.indexOf('·')>=0?it.emotion.split('·')[0]:it.emotion)+'</span>');
+      if(it.p_meow!=null) sub.push('<span class="pill2">喵叫 '+Math.round(it.p_meow*100)+'%</span>');
+      sub.push('<span class="pill2">'+(it.media==='video'?'视频':'音频')+'</span>');
+      var tx=it.translation||(it.status==='rejected'?'没听出是喵叫':'（画面结论）');
+      return '<div class="hist-item" data-ts="'+it.ts+'">'
+        +'<div class="hist-emoji">'+emojiFor(it)+'</div>'
+        +'<div class="hist-main"><div class="hist-tx">'+esc(tx)+'</div>'
+        +'<div class="hist-sub">'+sub.join('')+'<span class="pill2">'+esc(it.file)+'</span></div></div>'
+        +'<div class="hist-time">'+fmtAgo(it.ts)+'</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(histList.querySelectorAll('.hist-item'),function(el){
+      el.onclick=function(){
+        var ts=el.getAttribute('data-ts');
+        var arr2=safeGet(KEY_HIST)||[];
+        var hit=arr2.filter(function(x){return ''+x.ts===ts;})[0];
+        if(hit&&hit._j){
+          result.classList.remove('on'); result.classList.remove('reject');
+          suppressSave=true; render(hit._j);
+          window.scrollTo({top:0,behavior:'smooth'});
+        }
+      };
+    });
+  }
+
+  function updateFeedback(j){
+    curResult=j;
+    if(j.status==='rejected'||j.status==='translated'||j.status==='vision_only'){
+      fbEl.classList.add('on');
+      fbOk.disabled=false; fbNo.disabled=false; fbMsg.textContent='';
+    }else{
+      fbEl.classList.remove('on');
+    }
+  }
+
+  function saveAnnotation(verdict){
+    if(!curResult) return;
+    var arr=safeGet(KEY_ANN)||[];
+    arr.push({ts:Date.now(), file:(curResult.media&&curResult.media.name)||'未命名',
+      verdict:verdict, status:curResult.status,
+      emotion:curResult.emotion||'', translation:curResult.translation||'',
+      confidence:curResult.confidence||0, _j:curResult});
+    if(arr.length>50) arr=arr.slice(-50);
+    if(!safeSet(KEY_ANN,arr)){ arr=arr.slice(-20); safeSet(KEY_ANN,arr); }
+    fbOk.disabled=true; fbNo.disabled=true;
+    fbMsg.textContent= verdict==='correct' ? '已记录，谢谢你的反馈 🐾' : '已记录，我会慢慢学得更准～';
+  }
+  if(fbOk) fbOk.onclick=function(){ saveAnnotation('correct'); };
+  if(fbNo) fbNo.onclick=function(){ saveAnnotation('wrong'); };
+  if(histClear) histClear.onclick=function(){
+    if(!window.confirm('确定清空全部历史记录吗？此操作不可撤销。')) return;
+    localStorage.removeItem(KEY_HIST); renderHistory();
+  };
+  if(histExport) histExport.onclick=function(){
+    var arr=safeGet(KEY_ANN)||[];
+    if(!arr.length){ window.alert('还没有任何反馈标注可导出。翻完几段后点「翻得准 / 翻错了」就能积累了。'); return; }
+    var blob=new Blob([JSON.stringify(arr,null,2)],{type:'application/json'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='听喵说_反馈标注_'+stamp()+'.json'; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+  };
+
+  /* ═══ 喵语档案馆（服务端 data/uploads/ 原始音频留档）══
+     与上面的 localStorage 历史不同：这里是音频文件本身。
+     每次翻译，原始音频 + 情绪标注都会写进本机 data/uploads/（index.jsonl），
+     可在线试听、可下载。攒够不同猫的真实样本 → 导出清单+音频 → 重训模型，
+     这是打破「21 只猫」数据天花板的正规攒数据通道。 */
+  var arcEl=$('#arc'), arcList=$('#arcList'), arcEmpty=$('#arcEmpty'), arcCount=$('#arcCount');
+  var arcRefresh=$('#arcRefresh'), arcExport=$('#arcExport');
+
+  function arcEmojiFor(it){
+    if(it.status==='rejected') return '🚫';
+    if(it.status==='vision_only') return '🎬';
+    var e=it.emotion||'';
+    if(e.indexOf('满足')>=0) return '😺';
+    if(e.indexOf('期待')>=0) return '🍽️';
+    if(e.indexOf('不安')>=0) return '😿';
+    return '🐱';
+  }
+  function fmtSize(b){
+    b=b||0;
+    if(b>=1048576) return (b/1048576).toFixed(1)+' MB';
+    if(b>=1024) return Math.round(b/1024)+' KB';
+    return b+' B';
+  }
+  function loadArc(){
+    fetch('/archive').then(function(r){ return r.json(); }).then(function(j){
+      var items=(j&&j.items)||[];
+      if(!items.length){ arcEl.style.display='none'; return; }
+      arcEl.style.display='';
+      arcEmpty.style.display='none';
+      arcCount.textContent=items.length+' 条留档';
+      arcList.innerHTML=items.map(function(it){
+        var sub=[];
+        if(it.emotion) sub.push('<span class="pill2">'+(it.emotion.indexOf('·')>=0?it.emotion.split('·')[0]:it.emotion)+'</span>');
+        if(it.uncertain) sub.push('<span class="pill2" style="background:#FFF6DA;color:#A67C00">'+(it.uncertain_reason==='unfamiliar'?'不熟':'拿不准')+'</span>');
+        if(it.confidence!=null) sub.push('<span class="pill2">'+Math.round(it.confidence*100)+'%</span>');
+        if(it.p_meow!=null) sub.push('<span class="pill2">喵叫 '+Math.round(it.p_meow*100)+'%</span>');
+        sub.push('<span class="pill2">'+fmtSize(it.bytes)+'</span>');
+        var tx=it.translation||(it.status==='rejected'?'没听出是喵叫':'（画面结论）');
+        var url='/archive/audio/'+encodeURIComponent(it.file);
+        var player=it.media==='video'
+          ? '<video class="arc-player" controls preload="none" playsinline src="'+url+'"></video>'
+          : '<audio class="arc-player" controls preload="none" src="'+url+'"></audio>';
+        return '<div class="arc-item">'
+          +'<div class="arc-row">'
+          +'<div class="arc-emoji">'+arcEmojiFor(it)+'</div>'
+          +'<div class="arc-main"><div class="arc-tx">'+esc(tx)+'</div>'
+          +'<div class="arc-sub">'+sub.join('')+'<span class="pill2">'+esc(it.original||it.file)+'</span></div></div>'
+          +'<div class="arc-time">'+fmtAgo(it.ts)+'</div>'
+          +'<a class="arc-dl" href="'+url+'" download="'+esc(it.original||it.file)+'">⬇</a>'
+          +'</div>'+player+'</div>';
+      }).join('');
+    }).catch(function(){ /* 服务不在线时静默隐藏 */ });
+  }
+  if(arcRefresh) arcRefresh.onclick=loadArc;
+  if(arcExport) arcExport.onclick=function(){
+    fetch('/archive').then(function(r){ return r.json(); }).then(function(j){
+      var items=(j&&j.items)||[];
+      if(!items.length){ window.alert('档案馆还是空的。翻完几段喵语后，这里就会攒下带标注的原始音频。'); return; }
+      var blob=new Blob([JSON.stringify(items,null,2)],{type:'application/json'});
+      var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+      a.download='听喵说_喵语档案馆清单_'+stamp()+'.json'; a.click();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); },1000);
+    }).catch(function(){ window.alert('读取档案馆失败，请确认本地服务正在运行。'); });
+  };
+
+  renderHistory();
+  loadArc();          // 页面加载即填充档案馆（漏了这句，卡片会一直藏着）
+
+  reset();
+})();
+</script>
+</body>
+</html>
